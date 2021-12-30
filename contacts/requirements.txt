@@ -1,0 +1,12 @@
+jsonschema==3.2.0
+jmespath==0.9.4
+boto3==1.7.74; python_version=="3.6"
+boto3==1.9.42; python_version=="3.7"
+botocore==1.10.74; python_version=="3.6"
+botocore==1.12.42; python_version=="3.7"
+english-words==1.0.4
+phonenumbers==8.12.40
+pygtrie==2.3
+pytest==5.0.1
+PyYAML==5.1.2
+werkzeug==0.15.5

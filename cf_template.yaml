@@ -1,0 +1,67 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  BucketName:
+    Type: String
+    Description: Enter bucket name where the lambda zip file is stored
+Resources: 
+  contactsTable: 
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: "contacts_store"
+      AttributeDefinitions: 
+        - 
+          AttributeName: "phoneNumber"
+          AttributeType: "S"
+      KeySchema: 
+        - 
+          AttributeName: "phoneNumber"
+          KeyType: "HASH"
+      BillingMode: "PAY_PER_REQUEST"
+  contactsLambdaExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: contacts_lambda-execution-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: contacts_lambda-execution-policy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Effect: Allow
+              Action:
+              - dynamodb:PutItem
+              - dynamodb:GetItem
+              - dynamodb:Query
+              - dynamodb:UpdateItem
+              Resource:
+              - !GetAtt contactsTable.Arn
+            - Effect: Allow
+              Action:
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+              - logs:CreateLogGroup
+              Resource: arn:aws:logs:*:*:log-group:/aws/lambda/contacts_vanity-number-generator:*
+  contactsLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: contacts_vanity-number-generator
+      Code: 
+        S3Bucket: !Ref BucketName
+        S3Key: contacts.zip
+      Description: "Process invoked by amazon connect contact flows to generate vanity numbers"
+      Environment: 
+        Variables:
+          TABLE_NAME: contacts_store
+          DEBUG_ENABLED: false
+      Handler: index.handler
+      MemorySize: 1024
+      Role: !GetAtt contactsLambdaExecutionRole.Arn
+      Runtime: python3.6
