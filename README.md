@@ -63,7 +63,7 @@ The project is built using,
 
 1. Navigate to the Amazon Connect instance and attach the newly created Lambda function (contacts_vanity-number-generator) to the contact flows. (This will add the required permissions for the connect instance to invoke the Lambda function).
 2. Login to the Amazon Connect instance as Administrator and navigate to the contact flows section.
-3. Import the contact flow (/contact-flow/VanityNumberGenerator). Before importing, replace the #REGION# and #ßACCOUNTID# strings with the account id and region of your AWS account.
+3. Import the contact flow (/contact-flow/VanityNumberGenerator). Before importing, replace the #REGION# and #ACCOUNTID# strings with the account id and region of your AWS account.
 
 
 <!-- USAGE EXAMPLES -->
