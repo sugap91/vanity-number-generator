@@ -82,7 +82,7 @@
          "parameters":[
             {
                "name":"FunctionArn",
-               "value":"arn:aws:lambda:<REGION>:<ACCOUNTID>:function:contacts_vanity-number-generator",
+               "value":"arn:aws:lambda:#REGION#:#ACCOUNTID#:function:contacts_vanity-number-generator",
                "namespace":null
             },
             {
